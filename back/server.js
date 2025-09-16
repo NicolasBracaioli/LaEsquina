@@ -10,10 +10,10 @@ app.use(express.json());
 // Configuración de la base de datos
 // =====================
 const db = mysql.createConnection({
-  host: "localhost",
+  host: "mysql",       // 👈 nombre del servicio, no "localhost"
   user: "root",
-  password: "",        // tu contraseña de MySQL
-  database: "laesquina" // nombre de tu BDD
+  password: "root",    // 👈 la misma que pusiste en docker-compose
+  database: "laesquina"
 });
 
 db.connect(err => {
@@ -178,6 +178,8 @@ app.post("/login", (req, res) => {
 // Iniciar servidor
 // =====================
 const PORT = 3000;
-app.listen(PORT, () =>
-  console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`)
+const HOST = "0.0.0.0";  // 👈 cambio clave para Docker
+
+app.listen(PORT, HOST, () =>
+  console.log(`🚀 Servidor corriendo en http://${HOST}:${PORT}`)
 );
