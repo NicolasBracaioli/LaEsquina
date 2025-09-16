@@ -26,7 +26,7 @@ services:
   laesquina:
     build:
       context: .
-      dockerfile: Dockerfile   # 👈 asegurate de que tu archivo se llame así
+      dockerfile: Dockerfile.backend   # 👈 asegurate de que tu archivo se llame así
     container_name: laesquina_app
     ports:
       - "5173:5173"  # frontend (Vite)
