@@ -7,25 +7,35 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: Admin123
       MYSQL_DATABASE: testdb
-    ports:
-      - "3306:3306"
     volumes:
       - ./mysql_data:/var/lib/mysql
+    networks:
+      - laesquina_net
 
   adminer:
     image: adminer
+    container_name: adminer_ui
     restart: always
     ports:
       - "8080:8080"
     depends_on:
       - mysql
+    networks:
+      - laesquina_net
 
   laesquina:
     build:
       context: .
-      dockerfile: Dockerfile.backend   # tu único Dockerfile
+      dockerfile: Dockerfile   # 👈 asegurate de que tu archivo se llame así
+    container_name: laesquina_app
     ports:
-      - "5173:5173"  # frontend
-      - "3000:3000"  # backend
+      - "5173:5173"  # frontend (Vite)
+      - "3000:3000"  # backend (Express)
     depends_on:
       - mysql
+    networks:
+      - laesquina_net
+
+networks:
+  laesquina_net:
+    driver: bridge
