@@ -24,7 +24,7 @@ COPY back ./back
 WORKDIR /app/back
 RUN npm install
 
-# Volver a raíz
+# Volver a raíz a 
 WORKDIR /app
 
 # Crear directorio para supervisor
