@@ -17,9 +17,6 @@ const db = mysql.createConnection({
   database: process.env.DB_NAME || "testdb"
 });
 
-
-
-
 db.connect(err => {
   if (err) {
     console.error("❌ Error conectando a la BDD:", err.message);
