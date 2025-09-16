@@ -10,11 +10,12 @@ app.use(express.json());
 // Configuración de la base de datos
 // =====================
 const db = mysql.createConnection({
-  host: "mysql",       // 👈 nombre del servicio, no "localhost"
+  host: "mysql",        // nombre del servicio en docker-compose
   user: "root",
-  password: "root",    // 👈 la misma que pusiste en docker-compose
-  database: "laesquina"
+  password: "Admin123", // la que pusimos en docker-compose
+  database: "testdb"
 });
+
 
 db.connect(err => {
   if (err) {
