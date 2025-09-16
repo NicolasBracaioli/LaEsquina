@@ -1,4 +1,5 @@
 version: "3.9"
+
 services:
   mysql:
     image: mysql:8
@@ -13,24 +14,24 @@ services:
       - laesquina_net
 
   adminer:
-  image: adminer
-  container_name: adminer_ui
-  restart: always
-  ports:
-    - "8081:8080"   # 👈 afuera 8081, adentro sigue en 8080
-  depends_on:
-    - mysql
-  networks:
-    - laesquina_net
+    image: adminer
+    container_name: adminer_ui
+    restart: always
+    ports:
+      - "8081:8080"   # afuera 8081, adentro 8080
+    depends_on:
+      - mysql
+    networks:
+      - laesquina_net
 
   laesquina:
     build:
       context: .
-      dockerfile: Dockerfile.backend   # 👈 asegurate de que tu archivo se llame así
+      dockerfile: Dockerfile.backend
     container_name: laesquina_app
     ports:
-      - "5173:5173"  # frontend (Vite)
-      - "3000:3000"  # backend (Express)
+      - "5173:5173"
+      - "3000:3000"
     depends_on:
       - mysql
     networks:
