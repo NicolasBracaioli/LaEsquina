@@ -1,40 +1,35 @@
-# Imagen base
 FROM node:18-alpine
 
-# Instalar supervisor para correr varios procesos
+# Instalar supervisor
 RUN apk add --no-cache supervisor
 
 # Crear directorio de trabajo
 WORKDIR /app
 
-# Copiar frontend (que está en la raíz)
+# Copiar frontend
 COPY package*.json ./
-COPY vite.config* ./
+COPY vite.config.* ./
 COPY tsconfig*.json ./
 COPY public ./public
 COPY src ./src
 
-# Instalar dependencias del frongittend
+# Instalar dependencias frontend
 RUN npm install
 
-# Copiar backend (carpeta back/)
+# Copiar backend
 COPY back ./back
 
-# Instalar dependencias del backend
+# Instalar dependencias backend
 WORKDIR /app/back
 RUN npm install
 
-# Volver a raíz a 
+# Volver a raíz
 WORKDIR /app
 
-# Crear directorio para supervisor
-RUN mkdir -p /etc/supervisor/conf.d
+# Copiar supervisord
+COPY supervisord.conf /etc/supervisord.conf
 
-# Copiar configuración de supervisor
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-
-# Exponer puertos (frontend: 5173, backend: 3000)
+# Exponer puertos
 EXPOSE 5173 3000
 
-# Levantar supervisor (que corre frontend y backend juntos)
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]

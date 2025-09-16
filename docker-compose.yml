@@ -4,16 +4,14 @@ services:
   laesquina:
     build:
       context: .
-      dockerfile: Dockerfile.backend   # asegurate que tu archivo se llame así
+      dockerfile: Dockerfile.backend
     container_name: laesquina_app
     ports:
-      - "1573:5173"   # afuera 1573 → adentro Vite usa 5173
-      - "3000:3000"   # backend expuesto en 3000
+      - "1573:5173"   # frontend afuera en 1573
+      - "3000:3000"   # backend
     environment:
-      DB_HOST: 192.168.150.61   # 👈 IP de tu host donde corre el contenedor MySQL
+      DB_HOST: 192.168.150.61   # IP del host / contenedor MySQL
       DB_PORT: 3306
       DB_USER: root
       DB_PASSWORD: Admin123
       DB_NAME: testdb
-    networks:
-      - default
