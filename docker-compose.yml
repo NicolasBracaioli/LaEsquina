@@ -1,42 +1,19 @@
 version: "3.9"
 
 services:
-  mysql:
-    image: mysql:8
-    container_name: mysql_db
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: Admin123
-      MYSQL_DATABASE: testdb
-    volumes:
-      - ./mysql_data:/var/lib/mysql
-    networks:
-      - laesquina_net
-
-  adminer:
-    image: adminer
-    container_name: adminer_ui
-    restart: always
-    ports:
-      - "8081:8080"   # afuera 8081, adentro 8080
-    depends_on:
-      - mysql
-    networks:
-      - laesquina_net
-
   laesquina:
     build:
       context: .
-      dockerfile: Dockerfile.backend
+      dockerfile: Dockerfile.backend   # asegurate que tu archivo se llame así
     container_name: laesquina_app
     ports:
-      - "5173:5173"
-      - "3000:3000"
-    depends_on:
-      - mysql
+      - "1573:5173"   # afuera 1573 → adentro Vite usa 5173
+      - "3000:3000"   # backend expuesto en 3000
+    environment:
+      DB_HOST: 192.168.150.61   # 👈 IP de tu host donde corre el contenedor MySQL
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASSWORD: Admin123
+      DB_NAME: testdb
     networks:
-      - laesquina_net
-
-networks:
-  laesquina_net:
-    driver: bridge
+      - default
