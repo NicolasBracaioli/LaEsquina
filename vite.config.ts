@@ -10,8 +10,9 @@ export default defineConfig({
     },
   },
   server: {
+    host: "0.0.0.0",   // 👈 permite conexiones externas (Docker, red)
     port: 5177,
-    strictPort: true, // 👈 obliga a usar este puerto
+    strictPort: true,  // 👈 obliga a usar este puerto
     proxy: {
       '/api': {
         target: 'http://localhost:3000',
