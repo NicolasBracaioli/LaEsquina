@@ -1,0 +1,15 @@
+FROM node:18
+WORKDIR /app
+
+# Copiamos los package.json y se instalan dependencias
+COPY package*.json ./
+RUN npm install
+
+# Copiamos el resto del backend
+COPY . .
+
+# Exponemos el puerto del backend
+EXPOSE 3000
+
+# Arrancamos el servidor
+CMD ["node", "server.js"]

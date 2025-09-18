@@ -1,6 +1,6 @@
-import { defineConfig } from 'vite';
-import vue from '@vitejs/plugin-vue';
-import path from 'path';
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import path from 'path'
 
 export default defineConfig({
   plugins: [vue()],
@@ -10,15 +10,19 @@ export default defineConfig({
     },
   },
   server: {
-    host: "0.0.0.0",   // 👈 permite conexiones externas (Docker, red)
+    host: "0.0.0.0",    // 👈 necesario para Docker
     port: 5177,
-    strictPort: true,  // 👈 obliga a usar este puerto
+    strictPort: true,
     proxy: {
       '/api': {
         target: 'http://localhost:3000',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ''),
+        rewrite: (p) => p.replace(/^\/api/, ''),
       },
     },
-  },  
-});
+  },
+  build: {
+    outDir: 'dist',
+    emptyOutDir: true
+  }
+})
