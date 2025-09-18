@@ -1,35 +1,22 @@
 FROM node:22-alpine
 
-# Instalar supervisor
-RUN apk add --no-cache supervisor
-
-# Crear directorio de trabajo
+# Crear directorio de la app
 WORKDIR /app
 
-# Copiar frontend
+# Copiar dependencias
 COPY package*.json ./
-COPY vite.config.* ./
-COPY tsconfig*.json ./
-COPY public ./public
-COPY src ./src
 
-# Instalar dependencias frontend
+# Instalar dependencias
 RUN npm install
 
-# Copiar backend
-COPY back ./back
+# Copiar todo el código
+COPY . .
 
-# Instalar dependencias backend
-WORKDIR /app/back
-RUN npm install
+# Build del frontend (genera /dist)
+RUN npm run build
 
-# Volver a raíz
-WORKDIR /app
+# Exponer puerto backend
+EXPOSE 3000
 
-# Copiar supervisord
-COPY supervisord.conf /etc/supervisord.conf
-
-# Exponer puertos
-EXPOSE 5177 3000
-
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
+# Comando de inicio
+CMD ["node", "back/server.js"]

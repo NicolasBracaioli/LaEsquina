@@ -1,6 +1,7 @@
 const express = require("express");
 const mysql = require("mysql2");
 const cors = require("cors");
+const path = require("path");
 
 const app = express();
 app.use(cors());
@@ -10,13 +11,12 @@ app.use(express.json());
 // Configuración de la base de datos
 // =====================
 const db = mysql.createConnection({
-  host: process.env.DB_HOST || "localhost",
-  port: process.env.DB_PORT || 3306,
+  host: process.env.DB_HOST || "mysql",
   user: process.env.DB_USER || "root",
-  password: process.env.DB_PASSWORD || "",
-  database: process.env.DB_NAME || "testdb"
+  password: process.env.DB_PASSWORD || "Admin123",
+  database: process.env.DB_NAME || "testdb",
+  port: process.env.DB_PORT || 3306
 });
-
 
 db.connect(err => {
   if (err) {
@@ -25,6 +25,32 @@ db.connect(err => {
     console.log("✅ Conectado a la base de datos MySQL");
   }
 });
+
+// =====================
+// API de prueba
+// =====================
+app.get("/health", (req, res) => {
+  res.json({ ok: true, db: db.threadId ? true : false });
+});
+
+// ... tus rutas de productos y login acá (sin cambios) ...
+
+// =====================
+// Servir frontend de Vue (dist)
+// =====================
+app.use(express.static(path.join(__dirname, "../dist")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../dist/index.html"));
+});
+
+// =====================
+// Iniciar servidor
+// =====================
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () =>
+  console.log(`🚀 Servidor corriendo en http://0.0.0.0:${PORT}`)
+);
 
 // =====================
 // Ruta de prueba

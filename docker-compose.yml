@@ -1,5 +1,4 @@
 version: "3.9"
-
 services:
   laesquina:
     build:
@@ -7,11 +6,10 @@ services:
       dockerfile: Dockerfile.backend
     container_name: laesquina_app
     ports:
-      - "5177:5177"   # frontend afuera en 1577
-      - "3000:3000"   # backend
+      - "3000:3000"   # API y frontend por el mismo puerto
     environment:
-      DB_HOST: 192.168.150.61   # IP del host / contenedor MySQL
-      DB_PORT: 3306
-      DB_USER: root
-      DB_PASSWORD: Admin123
-      DB_NAME: testdb
+      - DB_HOST=192.168.150.61   # donde corre tu MySQL
+      - DB_PORT=3306
+      - DB_USER=root
+      - DB_PASSWORD=Admin123
+      - DB_NAME=testdb
