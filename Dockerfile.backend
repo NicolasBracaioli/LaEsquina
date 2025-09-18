@@ -13,7 +13,7 @@ RUN npm install
 COPY . .
 
 # Build del frontend (genera /dist)
-RUN npm run build
+RUN npm run build || cat /app/npm-debug.log
 
 # Exponer puerto backend
 EXPOSE 3000
