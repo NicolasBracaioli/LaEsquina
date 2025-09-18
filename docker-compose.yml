@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile.backend
     container_name: laesquina_app
     ports:
-      - "1577:5177"   # frontend afuera en 1577
+      - "5177:5177"   # frontend afuera en 1577
       - "3000:3000"   # backend
     environment:
       DB_HOST: 192.168.150.61   # IP del host / contenedor MySQL

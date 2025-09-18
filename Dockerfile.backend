@@ -30,6 +30,6 @@ WORKDIR /app
 COPY supervisord.conf /etc/supervisord.conf
 
 # Exponer puertos
-EXPOSE 5173 3000
+EXPOSE 5177 3000
 
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
